@@ -1,0 +1,193 @@
+{% extends "store/index.html" %}
+
+{% block content %}
+<style>
+    /* Premium Login & Register Styling */
+    .auth-bg {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        min-height: 80vh;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        margin-top: 2rem;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .auth-title {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 2rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Custom Floating Inputs */
+    .form-floating > .form-control {
+        border: 2px solid transparent;
+        background-color: #f4f7fe;
+        border-radius: 12px;
+        height: 60px;
+        padding: 1rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        color: #2b3674;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: #4318ff;
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+    }
+
+    .form-floating > label {
+        color: #a3aed1;
+        font-weight: 500;
+        padding: 1rem 1rem;
+    }
+
+    .auth-btn {
+        background: linear-gradient(135deg, #4318ff 0%, #8344ff 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        width: 100%;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        box-shadow: 0 10px 20px rgba(67, 24, 255, 0.2);
+    }
+
+    .auth-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 25px rgba(67, 24, 255, 0.3);
+        color: white;
+    }
+    
+    .auth-link {
+        color: #4318ff;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .auth-link:hover {
+        color: #8344ff;
+    }
+
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        color: #e74c3c;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    .helptext {
+        font-size: 0.75rem;
+        color: #6c757d;
+        display: block;
+        margin-top: 4px;
+        line-height: 1.2;
+    }
+    .field-wrapper {
+        margin-bottom: 1.25rem;
+    }
+    .non-field-errors {
+        background-color: #ffeaea;
+        color: #d93025;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="auth-bg">
+    <div class="glass-card">
+        <h2 class="auth-title">Create Account</h2>
+        
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="non-field-errors">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="field-wrapper">
+                <div class="form-floating">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+                {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li><i class="bi bi-exclamation-circle"></i> {{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if field.help_text %}
+                    <span class="helptext">{{ field.help_text|safe }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <button type="submit" class="auth-btn">Register Instantly</button>
+        </form>
+        
+        <div class="mt-4 text-center">
+            <p class="text-muted fw-medium">Already have an account? <a href="{% url 'login' %}" class="auth-link">Log in here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add bootstrap form-control classes to the generated inputs dynamically
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputs = document.querySelectorAll('.field-wrapper input');
+        inputs.forEach(input => {
+            input.classList.add('form-control');
+            input.placeholder = " "; // Required for floating labels
+        });
+    });
+</script>
+{% endblock %}

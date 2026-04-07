@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StripeStore - Premium Products</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #0f172a;
+            --accent: #0ea5e9;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Navbar --- */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .nav-btn {
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn-outline {
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            background: transparent;
+        }
+        .nav-btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            transform: translateY(-2px);
+        }
+        .nav-btn-solid {
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        .nav-btn-solid:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+        /* --- Main Content --- */
+        main {
+            flex: 1 0 auto;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--secondary);
+            color: #f1f5f9;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        .footer-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #818cf8, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-heading {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+        .footer-link:hover {
+            color: #38bdf8;
+        }
+        .social-icon {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        .social-icon:hover {
+            color: #fff;
+        }
+
+        /* --- Hero Section & Products (Scoped to Content Block) --- */
+        .hero { 
+            background: linear-gradient(135deg, var(--secondary) 0%, #1e1b4b 100%); 
+            color: white; 
+            padding: 5rem 2rem; 
+            border-radius: 24px;
+            margin-bottom: 3rem; 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.4) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+        .hero-title {
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .hero-subtitle {
+            color: #cbd5e1;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Product Cards --- */
+        .product-card { 
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05); 
+            border-radius: 20px; 
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+        }
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 30px rgba(0,0,0,0.08); 
+            border-color: rgba(79, 70, 229, 0.2);
+        }
+        .product-title {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-price span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-left: 5px;
+        }
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        .qty-wrapper {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .qty-input {
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            text-align: center;
+        }
+        .qty-input:focus {
+            box-shadow: none;
+            background: transparent;
+        }
+        .btn-buy { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
+            color: white; 
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-weight: 700;
+            transition: all 0.3s ease; 
+        }
+        .btn-buy:hover { 
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+            transform: scale(1.03);
+            color: white; 
+        }
+
+        /* --- Orders List --- */
+        .section-title {
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        .order-card { 
+            background: white;
+            border: none;
+            border-left: 5px solid #10b981; 
+            border-radius: 12px;
+            margin-bottom: 1rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease;
+        }
+        .order-card:hover {
+            transform: translateX(5px);
+        }
+        .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+        }
+        
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+            <i class="bi bi-box-seam-fill me-2 fs-4 text-primary"></i> StripeStore
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item me-4">
+                    <a class="nav-link fw-medium text-dark" href="{% url 'index' %}">Products</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item me-4">
+                        <span class="nav-link text-muted"><i class="bi bi-person-circle me-1"></i> {{ user.username }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn nav-btn nav-btn-outline">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item me-2 mb-2 mb-lg-0">
+                        <a href="{% url 'login' %}" class="btn nav-btn nav-btn-outline w-100">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'register' %}" class="btn nav-btn nav-btn-solid w-100">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content Area -->
+<main class="container mt-4 mb-5 pb-5">
+    {% block content %}
+    
+    <div class="hero text-center mt-2">
+        <h1 class="display-4 hero-title">Next-Gen Digital Goods</h1>
+        <p class="lead hero-subtitle">Discover premium packages engineered for professionals. Enjoy seamless checkout powered by Stripe.</p>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="row g-4 mb-5 pb-4">
+            <div class="col-12">
+                <h2 class="section-title">Available Products</h2>
+            </div>
+            {% for product in products %}
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="text-center">
+                        <h4 class="product-title">{{ product.name }}</h4>
+                        <div class="product-price">
+                            <span class="me-1">₹</span>{{product.price_cents|add:"0"}}
+                        </div>
+                        <p class="product-desc">{{ product.description }}</p>
+                    </div>
+                    
+                    <form action="{% url 'create_checkout_session' product.id %}" method="POST" class="mt-auto">
+                        {% csrf_token %}
+                        <div class="qty-wrapper d-flex align-items-center">
+                            <span class="text-muted fw-bold ps-2 ms-1">Qty:</span>
+                            <input type="number" name="quantity" class="form-control qty-input shadow-none" value="1" min="1" max="10">
+                        </div>
+                        <button type="submit" class="btn btn-buy w-100"><i class="bi bi-credit-card-fill me-2"></i>Buy Now with Stripe</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-light text-center py-5 border rounded-4">
+                        <i class="bi bi-inbox text-muted fs-1 d-block mb-3"></i>
+                        <h5 class="text-muted">No products available right now. Check back later!</h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">Order Dashboard</h2>
+                {% for order in orders %}
+                    <div class="card order-card">
+                        <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                            <div class="mb-3 mb-md-0 d-flex align-items-center">
+                                <div class="bg-light rounded-circle p-3 me-4 text-primary">
+                                    <i class="bi bi-bag-check-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 text-dark fw-bold">Order #{{ order.id }} &mdash; {{ order.product.name }}</h5>
+                                    <div class="text-muted small">
+                                        <span class="me-3"><i class="bi bi-box me-1"></i> Quantity: {{ order.quantity }}</span>
+                                        <span><i class="bi bi-tag me-1"></i> Total: ₹{{ order.total_price_cents|add:"0" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="badge status-badge rounded-pill"><i class="bi bi-check-circle-fill me-1"></i> Paid Successfully</span>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-light border rounded-4 py-4 d-flex align-items-center">
+                        <i class="bi bi-info-circle-fill fs-4 text-primary me-3"></i>
+                        <div>
+                            <strong>No orders yet!</strong>
+                            <span class="d-block text-muted small mt-1">Your purchased products will appear here.</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-5 my-5">
+            <i class="bi bi-lock text-primary fs-1 mb-3 d-block"></i>
+            <h2 class="fw-bold text-dark mb-4">Authentication Required</h2>
+            <p class="text-muted mb-5 mx-auto" style="max-width: 500px;">Please create an account or log in to view our exclusive catalog and manage your verified purchases securely.</p>
+            <div>
+                <a href="{% url 'register' %}" class="btn btn-primary nav-btn nav-btn-solid btn-lg px-5 mx-2 shadow"><i class="bi bi-person-plus-fill me-2"></i> Create Account</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary nav-btn nav-btn-outline btn-lg px-5 mx-2"><i class="bi bi-box-arrow-in-right me-2"></i> Log In</a>
+            </div>
+        </div>
+    {% endif %}
+    
+    {% endblock %}
+</main>
+
+<!-- Complete Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand mb-3 d-flex align-items-center">
+                    <i class="bi bi-box-seam-fill me-2 fs-3 text-white"></i> StripeStore
+                </div>
+                <p class="text-muted mb-4 pe-lg-5">Building the future of digital commerce. Seamless, secure, and blazingly fast checkout experiences powered by Stripe architecture.</p>
+                <div class="d-flex">
+                    <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-github"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-6">
+                <h5 class="footer-heading">Platform</h5>
+                <a href="#" class="footer-link">Products</a>
+                <a href="#" class="footer-link">Pricing</a>
+                <a href="#" class="footer-link">Features</a>
+                <a href="#" class="footer-link">Integrations</a>
+            </div>
+            
+            <div class="col-lg-2 col-md-6">
+                <h5 class="footer-heading">Resources</h5>
+                <a href="#" class="footer-link">Documentation</a>
+                <a href="#" class="footer-link">API Reference</a>
+                <a href="#" class="footer-link">Blog</a>
+                <a href="#" class="footer-link">Community</a>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <h5 class="footer-heading">Subscribe to Newsletter</h5>
+                <p class="text-muted mb-3">Get the latest news and updates delivered to your inbox.</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2 border-0" placeholder="Your email address" style="background: rgba(255,255,255,0.1); color: white;">
+                    <button class="btn btn-primary" type="button" onclick="alert('Subscribed successfully!')">Join</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="row mt-5 pt-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <span class="text-muted">&copy; 2026 StripeStore Inc. All rights reserved.</span>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                <a href="#" class="text-muted text-decoration-none border-start border-secondary ps-3">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
