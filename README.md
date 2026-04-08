@@ -123,16 +123,16 @@ stripe listen --forward-to localhost:8000/webhook/
 
 
 ## 🧠 Code Quality & Logic
-Clean Django structure (models, views, templates)
-Clear order lifecycle management
-Secure backend validation of payments
-Webhook ensures reliability in async scenarios
+* Clean Django structure (models, views, templates)
+* Clear order lifecycle management
+* Secure backend validation of payments
+* Webhook ensures reliability in async scenarios
 
 ## 🤖 AI Assistance
-ChatGPT used for:
-README structuring
-Debugging support (Stripe / Vercel setup)
-Minor code explanations
+* ChatGPT used for:
+  * README structuring
+  * Debugging support (Stripe / Vercel setup)
+  * Minor code explanations
 
 All logic was implemented, reviewed, and tested manually.
 
