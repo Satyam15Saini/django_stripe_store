@@ -2,13 +2,13 @@
 
 A **production-ready e-commerce application** built with Django that enables secure purchasing of physical and digital products using **Stripe Checkout** with asynchronous webhook handling.
 
----
+
 
 ## 🌐 Live Demo
 
 🚀 https://django-stripe-store.vercel.app/
 
----
+
 
 ## ✨ Features
 
@@ -19,7 +19,7 @@ A **production-ready e-commerce application** built with Django that enables sec
 * Reliable order lifecycle management (PENDING → PAID)
 * Fully deployed on serverless infrastructure (Vercel)
 
----
+
 
 ## 🛠 Tech Stack
 
@@ -41,29 +41,26 @@ A **production-ready e-commerce application** built with Django that enables sec
 3. Server verifies payment using Stripe API
 4. Webhook (`checkout.session.completed`) confirms and updates order to `PAID`
 
----
-
 ### Reliability
 
 * Payment status is verified via Stripe API (not blindly trusted)
 * Webhooks ensure order completion even if user leaves the page
 * Prevents duplicate charges and missed confirmations
 
----
 
 ## 🗄 Database
 
 * Uses **Neon PostgreSQL** for persistent storage
 * Required due to Vercel’s serverless, non-persistent environment
 
----
+
 
 ## 🚀 Deployment
 
 * Hosted on Vercel using serverless Django functions
 * Static files served via WhiteNoise
 
----
+
 
 ## 📄 License
 
