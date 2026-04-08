@@ -95,35 +95,40 @@ A **production-ready e-commerce application** built with Django that enables sec
 ## ⚙️ Setup & Run
 
 ### 1. Clone repository
-```bash
 git clone https://github.com/Satyam15Saini/django_stripe_store.git
 cd django_stripe_store
-2. Create virtual environment
+
+### 2. Create virtual environment
 python -m venv venv
 venv\Scripts\activate
-3. Install dependencies
+
+### 3. Install dependencies
 pip install -r requirements.txt
-4. Create .env file
+
+### 4. Create .env file
 STRIPE_PUBLIC_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-
 SECRET_KEY=your_django_secret
 DEBUG=True
-5. Run migrations
+
+### 5. Run migrations
 python manage.py migrate
-6. Start server
+
+### 6. Start server
 python manage.py runserver
-7. Run Stripe webhook locally
+
+### 7. Run Stripe webhook
 stripe listen --forward-to localhost:8000/webhook/
 
-🧠 Code Quality & Logic
+
+## 🧠 Code Quality & Logic
 Clean Django structure (models, views, templates)
 Clear order lifecycle management
 Secure backend validation of payments
 Webhook ensures reliability in async scenarios
 
-🤖 AI Assistance
+## 🤖 AI Assistance
 ChatGPT used for:
 README structuring
 Debugging support (Stripe / Vercel setup)
@@ -131,10 +136,10 @@ Minor code explanations
 
 All logic was implemented, reviewed, and tested manually.
 
-⏱ Time Spent
+## ⏱ Time Spent
 
 Total Time: 8–10 hours
 
-📄 License
+## 📄 License
 
 MIT License
