@@ -1,35 +1,70 @@
-# Django Stripe Store
+# 🛒 Django Stripe Store
 
-![Vercel Status](https://img.shields.io/badge/Status-Deployed-success?style=for-the-badge&logo=vercel)
-![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
-![Django](https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django)
-![Stripe](https://img.shields.io/badge/Stripe-Checkout-6772E5?style=for-the-badge&logo=stripe)
-![PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-336791?style=for-the-badge&logo=postgresql)
+A **production-ready e-commerce application** built with Django that enables secure purchasing of physical and digital products using **Stripe Checkout** with asynchronous webhook handling.
 
-A fully functional e-commerce application built in Django that processes physical/digital goods via **Stripe Checkout** dynamically using asynchronous webhooks. 
+---
 
-## 🌐 Live Application
-The project is officially deployed and functional on Vercel:
-**[View Live Application here: https://django-stripe-store.vercel.app/](https://django-stripe-store.vercel.app/)**
+## 🌐 Live Demo
+
+🚀 https://django-stripe-store.vercel.app/
+
+---
+
+## ✨ Features
+
+* Dynamic product checkout (physical & digital goods)
+* Secure payments via Stripe Checkout
+* Webhook-based payment confirmation
+* PCI-compliant payment flow (no card data stored)
+* Reliable order lifecycle management (PENDING → PAID)
+* Fully deployed on serverless infrastructure (Vercel)
+
+---
 
 ## 🛠 Tech Stack
 
-- **Backend Framework:** Django 6.0
-- **Database:** Neon (Serverless PostgreSQL)
-- **Payment Processing:** Stripe Checkout API & Stripe Webhooks
-- **Frontend / UI:** HTML5, CSS3, Bootstrap 5, Bootstrap Icons
-- **Deployment & Hosting:** Vercel (Serverless Python Functions)
-- **Static File Handling:** WhiteNoise
+* **Backend:** Django 6.0
+* **Database:** Neon (Serverless PostgreSQL)
+* **Payments:** Stripe Checkout API + Webhooks
+* **Frontend:** HTML5, CSS3, Bootstrap 5
+* **Deployment:** Vercel (Serverless Python Functions)
+* **Static Files:** WhiteNoise
 
-## 💡 Architecture & Assumptions
+---
 
-### Avoid Double Charges & Robust States
-- The order is first created with a `PENDING` status prior to redirecting the user to Stripe.
-- Upon returning to the `checkout_success` view, instead of simply marking it as paid blindly on load, the server directly fetches the Stripe Session status from the Stripe API to securely interrogate true payment state.
-- A secondary, asynchronous `stripe_webhook` handles `checkout.session.completed` payloads behind-the-scenes. This provides bulletproof order fulfillment even if the client's browser crashes or they close the tab before being redirected.
+## 🏗 Architecture
 
-### Flow Chosen: Stripe Checkout
-Stripe Checkout was specifically selected over raw Payment Intents to automatically handle PCI Compliance obligations off-site. It provides an optimized and localized payment UI for conversion, supports Apple Pay/Google Pay dynamically, and avoids processing complex raw card PANs natively within the Django environment.
+### Payment Flow
 
-### Database Strategy
-Vercel operates as a serverless fleet of ephemeral containers. For this deployment, the database transitions from local SQLite into **Neon's Cloud PostgreSQL** to ensure transactions and users survive function-spindowns across isolated workers.
+1. Order is created with `PENDING` status
+2. User completes payment via Stripe Checkout
+3. Server verifies payment using Stripe API
+4. Webhook (`checkout.session.completed`) confirms and updates order to `PAID`
+
+---
+
+### Reliability
+
+* Payment status is verified via Stripe API (not blindly trusted)
+* Webhooks ensure order completion even if user leaves the page
+* Prevents duplicate charges and missed confirmations
+
+---
+
+## 🗄 Database
+
+* Uses **Neon PostgreSQL** for persistent storage
+* Required due to Vercel’s serverless, non-persistent environment
+
+---
+
+## 🚀 Deployment
+
+* Hosted on Vercel using serverless Django functions
+* Static files served via WhiteNoise
+
+---
+
+## 📄 License
+
+MIT License
