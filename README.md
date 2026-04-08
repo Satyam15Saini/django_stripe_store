@@ -4,9 +4,9 @@ A **production-ready e-commerce application** built with Django that enables sec
 
 
 
-## 🌐 Live Demo
+## 🚀 Deployment
 
-🚀 https://django-stripe-store.vercel.app/
+🌐 Live Demo - https://django-stripe-store.vercel.app/
 
 
 
@@ -52,13 +52,6 @@ A **production-ready e-commerce application** built with Django that enables sec
 
 * Uses **Neon PostgreSQL** for persistent storage
 * Required due to Vercel’s serverless, non-persistent environment
-
-
-
-## 🚀 Deployment
-
-* Hosted on Vercel using serverless Django functions
-* Static files served via WhiteNoise
 
 
 
