@@ -9,7 +9,9 @@ A **production-ready e-commerce application** built with Django that enables sec
 🌐 Live Demo - https://django-stripe-store.vercel.app/
 
 
+
 ---
+
 
 
 ## ✨ Features
