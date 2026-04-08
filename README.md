@@ -1,25 +1,35 @@
 # Django Stripe Store
 
-A Django application for purchasing fixed products using Stripe Checkout. Features a seamless Bootstrap UI for product listing and order history.
+![Vercel Status](https://img.shields.io/badge/Status-Deployed-success?style=for-the-badge&logo=vercel)
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
+![Django](https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django)
+![Stripe](https://img.shields.io/badge/Stripe-Checkout-6772E5?style=for-the-badge&logo=stripe)
+![PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-336791?style=for-the-badge&logo=postgresql)
 
-## Assumptions
+A fully functional e-commerce application built in Django that processes physical/digital goods via **Stripe Checkout** dynamically using asynchronous webhooks. 
 
-- We are selling physical/digital singular goods with predefined prices where the site calculates `price * quantity = total` and passes `unit_amount` and `quantity` to Stripe.
-- Docker was attempted but for seamless cross-platform execution (especially when Docker Daemon isn't running on Windows environments by default), the setup supports simple local virtual environment initialization with SQLite. It also has a `docker-compose.yml` for Postgres deployment.
-- Authentication was implemented to associate orders with users, providing a better "My Orders" layout.
-- The UI handles the primary requirement (a single page showing products, quantities, buy buttons, and order history).
+## 🌐 Live Application
+The project is officially deployed and functional on Vercel:
+**[View Live Application here: https://django-stripe-store.vercel.app/](https://django-stripe-store.vercel.app/)**
 
-## Flow Chosen: Stripe Checkout vs Payment Intents
+## 🛠 Tech Stack
 
-**Flow Chosen:** Stripe Checkout is used because it automatically handles PCI compliance, provides an optimized and localized payment UI for conversion, supports newer payment methods out of the box (like Apple Pay/Google Pay), and reduces the complexity of managing forms strictly within the application. Using Stripe Checkout also means less frontend JS and no need to handle raw card logic.
+- **Backend Framework:** Django 6.0
+- **Database:** Neon (Serverless PostgreSQL)
+- **Payment Processing:** Stripe Checkout API & Stripe Webhooks
+- **Frontend / UI:** HTML5, CSS3, Bootstrap 5, Bootstrap Icons
+- **Deployment & Hosting:** Vercel (Serverless Python Functions)
+- **Static File Handling:** WhiteNoise
 
-## Avoiding Double Charge / Inconsistent State
+## 💡 Architecture & Assumptions
 
-1. The order is first created with a `PENDING` status prior to redirecting to Stripe.
-2. The Stripe Session ID is attached to the pending order.
-3. Upon returning to the `checkout_success` view, instead of simply marking it as paid blindly on load, the view:
-   - Fetches the Stripe Session from the Stripe API directly.
-   - Validates that `session.payment_status == 'paid'`.
-   - Before updating, it checks if the order is already in a `PAID` state.
-   - By verifying both the Stripe backend status and skipping the DB update/fulfillment logic if already processed, refreshing the success page will not duplicate the charge or fulfillment.
+### Avoid Double Charges & Robust States
+- The order is first created with a `PENDING` status prior to redirecting the user to Stripe.
+- Upon returning to the `checkout_success` view, instead of simply marking it as paid blindly on load, the server directly fetches the Stripe Session status from the Stripe API to securely interrogate true payment state.
+- A secondary, asynchronous `stripe_webhook` handles `checkout.session.completed` payloads behind-the-scenes. This provides bulletproof order fulfillment even if the client's browser crashes or they close the tab before being redirected.
 
+### Flow Chosen: Stripe Checkout
+Stripe Checkout was specifically selected over raw Payment Intents to automatically handle PCI Compliance obligations off-site. It provides an optimized and localized payment UI for conversion, supports Apple Pay/Google Pay dynamically, and avoids processing complex raw card PANs natively within the Django environment.
+
+### Database Strategy
+Vercel operates as a serverless fleet of ephemeral containers. For this deployment, the database transitions from local SQLite into **Neon's Cloud PostgreSQL** to ensure transactions and users survive function-spindowns across isolated workers.
