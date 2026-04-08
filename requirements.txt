@@ -1,4 +1,6 @@
 Django
 psycopg2-binary
-stripe
 python-dotenv
+stripe
+gunicorn
+whitenoise
